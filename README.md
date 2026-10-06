@@ -180,6 +180,7 @@ export MDMEM_LLM_MODEL=qwen2.5:7b
 
 mdmem-test --root ./notes distill --messages chat.json --dry   # 先看它要发给模型什么
 mdmem-test --root ./notes distill --messages chat.json         # 真跑：提炼 → 落库
+```
 
 ## 存储格式
 
