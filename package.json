@@ -34,7 +34,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "mdmem-test": "./cli.mjs"
+    "mdmem-test": "cli.mjs"
   },
   "files": [
     "index.mjs",

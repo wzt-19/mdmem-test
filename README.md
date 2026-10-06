@@ -1,5 +1,10 @@
 # mdmem-test
 
+[![npm version](https://img.shields.io/npm/v/mdmem-test)](https://www.npmjs.com/package/mdmem-test)
+[![license](https://img.shields.io/npm/l/mdmem-test)](https://github.com/wzt-19/mdmem-test/blob/main/LICENSE)
+[![downloads](https://img.shields.io/npm/dw/mdmem-test)](https://www.npmjs.com/package/mdmem-test)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://www.npmjs.com/package/mdmem-test)
+
 > **Local Markdown memory retrieval.**
 > Zero dependencies. Your data stays yours. Self-checking.
 > That's it. ~1969 lines.
