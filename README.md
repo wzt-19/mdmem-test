@@ -15,6 +15,9 @@
 > ```
 >
 > It's 1969 lines. What else do you want — a bicycle?
+>
+> The optional distill step takes an LLM you inject yourself — **so you can throw it
+> at a small local model** and keep the whole thing offline, API key and all.
 
 **一个记忆 = 一个 markdown 文件。** 零依赖、中文友好、能搜能读能改的轻量记忆库。
 
@@ -219,4 +222,4 @@ npm test              # 等价于 verify.mjs
 
 ## License
 
-MIT
+MIT —— 随便用，商用也行，保留版权声明即可。见 [LICENSE](./LICENSE)。

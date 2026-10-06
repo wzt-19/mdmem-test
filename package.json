@@ -4,6 +4,14 @@
   "description": "一个记忆就是一个 markdown 文件。零依赖的轻量记忆库：中文友好检索、软删除、可蒸馏，纯 node 内置模块。",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wzt-19/mdmem-test.git"
+  },
+  "homepage": "https://github.com/wzt-19/mdmem-test#readme",
+  "bugs": {
+    "url": "https://github.com/wzt-19/mdmem-test/issues"
+  },
   "keywords": [
     "memory",
     "markdown",
