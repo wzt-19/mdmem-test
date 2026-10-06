@@ -5,7 +5,8 @@
 > That's it. ~1969 lines.
 >
 > ```
-> What you have to install:      nothing — copy the files and go
+> What you have to install:      nothing — the library is zero-dependency,
+>                                the CLI is one file (`npm i -g mdmem-test` puts it on PATH)
 > Database:                      none
 > Cloud:                         none
 > API key:                       none
@@ -212,6 +213,7 @@ npm test              # 等价于 verify.mjs
 ```
 
 两个都退出码 0 才算通过。自检**不依赖任何外部服务**（蒸馏用假 LLM），全程在临时目录里跑。
+装在 npm 包里的版本也带这两个脚本 —— 装完可以直接 `npm test` 验一遍，不用先 clone 仓库。
 
 ## 设计取舍（为什么这么简单）
 

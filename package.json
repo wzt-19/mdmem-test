@@ -43,6 +43,8 @@
     "terms.mjs",
     "distill.mjs",
     "cli.mjs",
+    "verify.mjs",
+    "verify-cli.mjs",
     "README.md",
     "LICENSE"
   ],
