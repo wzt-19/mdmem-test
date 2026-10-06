@@ -1,0 +1,49 @@
+{
+  "name": "mdmem-test",
+  "version": "0.1.0",
+  "description": "一个记忆就是一个 markdown 文件。零依赖的轻量记忆库：中文友好检索、软删除、可蒸馏，纯 node 内置模块。",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "markdown",
+    "notes",
+    "knowledge-base",
+    "search",
+    "retrieval",
+    "cjk",
+    "llm",
+    "agent",
+    "zero-dependency"
+  ],
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./store": "./store.mjs",
+    "./retrieve": "./retrieve.mjs",
+    "./terms": "./terms.mjs",
+    "./distill": "./distill.mjs",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "mdmem-test": "./cli.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "store.mjs",
+    "retrieve.mjs",
+    "terms.mjs",
+    "distill.mjs",
+    "cli.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node verify.mjs",
+    "test:cli": "node verify-cli.mjs",
+    "bench": "node bench-scale.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

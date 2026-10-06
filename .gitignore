@@ -1,0 +1,18 @@
+# 依赖（这个库刻意零依赖，这些目录只会在本地调试时出现）
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+
+# 自检与基准跑出来的临时库
+_selftest/
+_bench/
+_bench-*/
+
+# 本地记忆库（别把私人笔记提交上去）
+memory/
+notes/
+*.local.json
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

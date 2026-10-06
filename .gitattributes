@@ -1,0 +1,8 @@
+# 换行符统一：仓库里一律 LF，检出到 Windows 也不自动改成 CRLF
+# （.mjs / .md / .json 都是纯文本，统一了才不会在跨平台 diff 时满屏假改动）
+* text=auto eol=lf
+
+# 二进制/不该做换行转换的
+*.png binary
+*.jpg binary
+*.ico binary
