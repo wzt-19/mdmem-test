@@ -72,39 +72,60 @@ date: 2026-10-06
 - **可选蒸馏**：给一段对话 + 一个 LLM，自动提炼成记忆条目落库（LLM 由你注入，不绑定厂商）。
 - **不猜目录**：`root` 必须显式给，库不存在就报错 —— 猜错路径的代价是往不该写的地方写数据。
 
-## 快速开始
+## 使用方法
+
+### 30 秒上手
 
 ```bash
-npm install mdmem-test          # 或者直接把这个目录拷走用
+npm install mdmem-test
 ```
 
 ```js
 import { openMemoryLibrary } from 'mdmem-test'
 
-const mem = openMemoryLibrary({ root: './notes' })   // 目录不存在会自动创建
+const mem = openMemoryLibrary({ root: './notes' })      // 库目录，不存在会自动建
+mem.write({ title: '部署前先跑自检', body: '跳过自检那次出过事故。', tags: ['流程'] })
 
-// 写
-mem.write({
-  title: '部署流程：先跑自检再发版',
-  body: '发版前必须跑一遍 npm test；跳过自检的那次出过事故。',
-  tags: ['流程', '发版'],
-})
-
-// 检索（返回按相关度排序的数组）
-mem.search('发版前要做什么', { limit: 5 })
-// → [{ id, rel, title, tags, score, coverage, matchedTags, excerpt, … }]
-
-// 读单条（id / 相对路径 / 标题都行，支持前缀与模糊）
-mem.read('2026-10-06-a1b2c3')
-
-// 列 / 统计 / 软删 / 恢复
-mem.list({ limit: 20 })
-mem.stats()
-mem.remove(key)          // → .trash/（可恢复）
-mem.restore(rel)         // 从回收站恢复
+mem.search('发版要注意什么', { limit: 5 })               // 换种说法也搜得到
+// → [{ id, rel, title, tags, score, coverage, excerpt, … }]
 ```
 
-### 当命令用
+`search` 返回按相关度排序的数组；**相关度不够就返回空数组**，不会硬凑几条给你。
+
+### 装（三种，任选）
+
+```bash
+npm install mdmem-test            # 当库用
+npm install -g mdmem-test         # 顺便把 CLI 装成命令
+npx mdmem-test --root ./notes list   # 啥都不装，直接跑一次
+```
+
+**也可以完全不装**：把 `index.mjs` / `store.mjs` / `retrieve.mjs` / `terms.mjs` /
+`distill.mjs` 这 5 个文件拷进项目，`import './store/index.mjs'` 就行 —— 它们只互相引用，
+不引任何外部包。
+
+### 库（5 个文件，零依赖）
+
+```js
+import { openMemoryLibrary } from 'mdmem-test'
+
+const mem = openMemoryLibrary({ root: './notes' })   // 目录不存在会自动创建
+```
+
+| 方法 | 作用 |
+|---|---|
+| `mem.write({ title, body, tags, group, rel })` | 写一条（传 `rel` 则覆盖那条，路径与 id 都不变） |
+| `mem.search(q, { limit, minScore, headWeight, tagWeight, semantic, group })` | 检索，返回按 score 降序的数组 |
+| `mem.read(key)` | 读一条（`id` / 相对路径 / 标题都行，支持前缀与模糊） |
+| `mem.list({ limit, group })` | 列条目（不带正文） |
+| `mem.stats()` | 条目数 / 字节数 / 分组 / 标签分布 |
+| `mem.remove(key)` | **软删**（进 `.trash/`，可恢复） |
+| `mem.restore(rel)` | 从回收站恢复 |
+| `mem.trash()` | 回收站清单 |
+| `mem.feedback({ rel, query, useful })` | 记一笔"这条有用"，同查询以后加权 |
+| `mem.distillIfNeeded({ messages, callLLM, budget })` | 够长才蒸馏（见下） |
+
+### 命令行
 
 ```bash
 mdmem-test --root ./notes search "发版前要做什么" --limit 5
@@ -120,6 +141,14 @@ mdmem-test --root ./notes distill --messages chat.json --dry   # 只看提示词
 
 `--root` 也可以用环境变量 `MDMEM_ROOT`。**两个都没给会直接报错退出**，不会瞎猜目录。
 
+### 典型用法
+
+- **给 AI agent 当长期记忆**：`search()` 的结果直接拼进上下文。检索不到就返回空，
+  不会塞一堆无关记忆污染提示词 —— 这是它和其他方案最大的差别。
+- **当个人知识库**：`write` 写进去，编辑器随时改，`git` 管版本，`grep` 也能用。
+- **多来源隔离**：`group` 字段区分来源（项目 / 群 / 用户），检索时用 `group:` 过滤。
+- **改了文件不用重启**：指纹变了下次查询自动重建索引。
+
 ### 可选：把对话蒸馏成记忆
 
 给一段对话，让模型提炼出值得长期记住的条目：
@@ -134,7 +163,18 @@ await mem.distillIfNeeded({
 // → { skipped: 'under-budget' } 或 { entries, written }
 ```
 
-CLI 内置 OpenAI 兼容适配器：`MDMEM_LLM_BASE` / `MDMEM_LLM_KEY` / `MDMEM_LLM_MODEL`。
+**LLM 由你注入，所以可以塞本地小模型**：任何 `async ({system, user}) => string` 都行 ——
+Ollama、llama.cpp、vLLM 随便接，整条链路离线可跑，不需要 API key。
+
+CLI 内置了 OpenAI 兼容适配器，用环境变量喂它就行：
+
+```bash
+export MDMEM_LLM_BASE=http://127.0.0.1:11434/v1   # 本地模型的 OpenAI 兼容端点
+export MDMEM_LLM_KEY=local                        # 这行随便填，本地服务不看
+export MDMEM_LLM_MODEL=qwen2.5:7b
+
+mdmem-test --root ./notes distill --messages chat.json --dry   # 先看它要发给模型什么
+mdmem-test --root ./notes distill --messages chat.json         # 真跑：提炼 → 落库
 
 ## 存储格式
 
