@@ -1,6 +1,6 @@
 {
   "name": "mdmem-test",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "一个记忆就是一个 markdown 文件。零依赖的轻量记忆库：中文友好检索、软删除、可蒸馏，纯 node 内置模块。",
   "type": "module",
   "license": "MIT",
