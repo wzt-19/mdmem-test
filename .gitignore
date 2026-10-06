@@ -3,6 +3,9 @@ node_modules/
 package-lock.json
 pnpm-lock.yaml
 
+# 凭据：在项目目录里跑 npm login 会把 token 写到这里，绝不能提交
+.npmrc
+
 # 自检与基准跑出来的临时库
 _selftest/
 _bench/
