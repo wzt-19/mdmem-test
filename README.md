@@ -1,5 +1,21 @@
 # mdmem-test
 
+> **Local Markdown memory retrieval.**
+> Zero dependencies. Your data stays yours. Self-checking.
+> That's it. ~1969 lines.
+>
+> ```
+> What you have to install:      nothing — copy the files and go
+> Database:                      none
+> Cloud:                         none
+> API key:                       none
+> Vector DB:                     none
+> Runtime dependency:            none
+> Self-check:                    47 end-to-end + 19 CLI, both exit 0
+> ```
+>
+> It's 1969 lines. What else do you want — a bicycle?
+
 **一个记忆 = 一个 markdown 文件。** 零依赖、中文友好、能搜能读能改的轻量记忆库。
 
 给需要长期记忆的程序（AI agent、机器人、个人知识库、脚本）用：
